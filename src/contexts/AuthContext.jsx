@@ -31,6 +31,9 @@ export function AuthProvider({ children }) {
   const login = async (email, password) => {
     try {
       const response = await api.post('/auth/login', { email, password });
+      if (response.data?.token) {
+        localStorage.setItem('codesync_token', response.data.token);
+      }
       setUser(response.data.user);
       toast.success('Welcome back to CodeSync!');
       return response.data.user;
@@ -43,6 +46,9 @@ export function AuthProvider({ children }) {
   const register = async (name, email, password) => {
     try {
       const response = await api.post('/auth/register', { name, email, password });
+      if (response.data?.token) {
+        localStorage.setItem('codesync_token', response.data.token);
+      }
       setUser(response.data.user);
       toast.success('Account created! Welcome to CodeSync.');
       return response.data.user;
@@ -58,6 +64,7 @@ export function AuthProvider({ children }) {
     } catch (err) {
       console.warn('Logout request failed:', err);
     } finally {
+      localStorage.removeItem('codesync_token');
       setUser(null);
       toast.info('Logged out successfully');
     }

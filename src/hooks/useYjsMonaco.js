@@ -68,11 +68,13 @@ export function useYjsMonaco({
     }
 
     const roomName = `${workspaceId}:${activeFileId}`;
+    const token = typeof window !== 'undefined' ? localStorage.getItem('codesync_token') : null;
 
     // 3. Connect WebsocketProvider
     const provider = new WebsocketProvider(wsUrl, roomName, ydoc, {
       connect: true,
       maxBackoffTime: 5000,
+      params: token ? { token } : {},
     });
     providerRef.current = provider;
 

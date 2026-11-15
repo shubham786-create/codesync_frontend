@@ -57,8 +57,10 @@ export default function DashboardPage() {
   };
 
   useEffect(() => {
-    fetchWorkspaces();
-  }, []);
+    if (user) {
+      fetchWorkspaces();
+    }
+  }, [user]);
 
   const filteredWorkspaces = useMemo(() => {
     if (!searchQuery.trim()) return workspaces;

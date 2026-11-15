@@ -228,8 +228,10 @@ export default function EditorPage() {
   }, [workspaceId, user, navigate]);
 
   useEffect(() => {
-    loadWorkspaceData();
-  }, [loadWorkspaceData]);
+    if (user) {
+      loadWorkspaceData();
+    }
+  }, [user, loadWorkspaceData]);
 
   // Socket.IO real-time connection for presence, chat, and file system synchronization
   useEffect(() => {
