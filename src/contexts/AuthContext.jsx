@@ -2,7 +2,17 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import api from '../services/api';
 import { toast } from 'sonner';
 
-const AuthContext = createContext(null);
+const defaultAuthValue = {
+  user: null,
+  loading: false,
+  isAuthenticated: false,
+  login: async () => {},
+  register: async () => {},
+  logout: async () => {},
+  checkAuth: async () => {},
+};
+
+export const AuthContext = createContext(defaultAuthValue);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
@@ -85,8 +95,5 @@ export function AuthProvider({ children }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
+  return context || defaultAuthValue;
 }
